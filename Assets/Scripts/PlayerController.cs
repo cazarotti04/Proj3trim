@@ -26,6 +26,15 @@ public class PlayerController : MonoBehaviour {
 
 	bool isJumping = false;
 
+	public Transform Feet;
+	public float feetW = 0.5f;
+	public float feetH = 0.1f;
+
+	public bool isGrounded;
+	public LayerMask whatIsGround;
+
+	bool canDoubleJump = false;
+	public float delayForDJ = 0.2f;
 
 	// Use this for initialization
 	void Start () {
@@ -34,9 +43,19 @@ public class PlayerController : MonoBehaviour {
 		anao = GetComponent<Animator>();
 	}
 	
+	void OnDrawGizmos(){
+			Gizmos.DrawWireCube(Feet.position, new Vector3(feetW, feetH, 0f));
+	}
+
 	// Update is called once per frame
 	void Update () {
 		
+		if(transform.position.y < GM.instance.yMinLive){
+			GM.instance.killPlayer();
+		}
+
+		isGrounded = Physics2D.OverlapBox(new Vector2(Feet.position.x, Feet.position.y), new Vector2(feetW, feetH), 360.0f, whatIsGround);
+
 		float horizontalInput = Input.GetAxisRaw("Horizontal");//-1 = Left // 1 = Right
 		float horizontalPlayerSpeed = horizontalSpeed * horizontalInput;
 
@@ -82,9 +101,24 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Jump(){
-		isJumping = true;
-		rb.AddForce(new Vector2(0f, jumpSpeed));
-		anao.SetInteger("State", 2);
+		if(isGrounded){
+			isJumping = true;
+			rb.AddForce(new Vector2(0f, jumpSpeed));
+			anao.SetInteger("State", 2);
+
+			Invoke("EnableDJ", delayForDJ);
+		}
+
+		if(canDoubleJump && !isGrounded){
+			rb.velocity = Vector2.zero;
+			rb.AddForce(new Vector2(0f, jumpSpeed));
+			anao.SetInteger("State", 2);
+			canDoubleJump = false;	
+		}
+	}
+
+	void EnableDJ(){
+		canDoubleJump = true;
 	}
 
 	void OnCollisionEnter2D(Collision2D other){
