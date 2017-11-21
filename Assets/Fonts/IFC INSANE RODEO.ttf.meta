@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 61ddef3addb797f4a9af3c46fdbc3518
+timeCreated: 1511269778
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: IFC INSANE RODEO
+  fontNames:
+  - IFC INSANE RODEO
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
