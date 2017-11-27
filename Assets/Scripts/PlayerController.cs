@@ -135,6 +135,7 @@ public class PlayerController : MonoBehaviour {
         {
 			AudioManager.instance.PlayCoinPickupSound(other.gameObject);
             SFXManager.instance.ShowCoinParticles(other.gameObject);
+			GM.instance.IncrementCoinCount();
             Destroy(other.gameObject);
         }
     }
